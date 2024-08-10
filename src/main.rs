@@ -1,18 +1,14 @@
 mod current_game;
 mod hangman_draw;
+mod read_file;
 
+use read_file::get_random_word;
 use current_game::CurrentGame;
 use hangman_draw::display_hangman;
-use std::fs::File;
-use std::io::{self, BufRead, Write};
-use rand::Rng;
+use std::io::{self, Write};
 
 fn main() {
-    let list_of_words = read_from_file().unwrap_or_else(|err| {
-        eprintln!("Не удалось прочитать файл: {}", err);
-        std::process::exit(1);
-    });
-    let random_word = get_random_word(&list_of_words).expect("Словарь пуст");
+    let random_word = get_random_word().expect("Словарь пуст");
 
     let mut current_game = CurrentGame::new(random_word, 6);
     play(&mut current_game);
@@ -68,27 +64,3 @@ fn check_guess(current_game: &mut CurrentGame, guess: char) {
     }
 }
 
-fn read_from_file() -> io::Result<Vec<String>> {
-    let path = "words.txt";
-
-    let file = File::open(path)?;
-    let reader = io::BufReader::new(file);
-
-    let mut lines = Vec::new();
-
-    for line in reader.lines() {
-        let line = line?;
-        lines.push(line);
-    }
-    Ok(lines)
-}
-
-fn get_random_word(words: &Vec<String>) -> Option<String> {
-    if words.is_empty() {
-        return None;
-    }
-
-    let mut rng = rand::thread_rng();
-    let index = rng.gen_range(0..words.len());
-    Some(words[index].clone())
-}
