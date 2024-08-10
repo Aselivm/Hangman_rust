@@ -7,7 +7,7 @@ pub struct CurrentGame {
 
 impl CurrentGame {
     pub fn new(word: String, attempts: i32) -> Self {
-        let masked_word = word.chars().map(|_| '_').collect();
+        let masked_word = word.chars().map(|_| '*').collect();
         CurrentGame {
             word,
             masked_word,
