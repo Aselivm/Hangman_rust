@@ -6,12 +6,12 @@ pub struct CurrentGame {
 }
 
 impl CurrentGame {
-    pub fn new(word: String, attempts: i32) -> Self {
+    pub fn new(word: String) -> Self {
         let masked_word = word.chars().map(|_| '*').collect();
         CurrentGame {
             word,
             masked_word,
-            attempts_left: attempts,
+            attempts_left: 6,
             guessed_letters: Vec::new(),
         }
     }

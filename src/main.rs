@@ -10,7 +10,7 @@ use std::io::{self, Write};
 fn main() {
     let random_word = get_random_word().expect("Словарь пуст");
 
-    let mut current_game = CurrentGame::new(random_word, 6);
+    let mut current_game = CurrentGame::new(random_word);
     play(&mut current_game);
 }
 
